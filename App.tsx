@@ -171,13 +171,15 @@ const App: React.FC = () => {
   );
 
   const MethodologyView = () => (
-    <div className="bg-white py-24 px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-16 items-start">
-          <div className="md:w-1/3 space-y-8 sticky top-12 text-left">
+    <div className="bg-white py-16 md:py-24 px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-12 lg:gap-24 items-start">
+          <div className="w-full md:w-[45%] lg:w-[40%] space-y-8 sticky md:top-12 text-left pr-0 md:pr-12">
              <div className="w-24 h-3 bg-[#42A4DC] mb-8" />
-             <h2 className="text-6xl font-black text-[#202C54] uppercase tracking-tighter leading-[0.9] newspaper-font">Marco Técnico<br/>Metodológico</h2>
-             <p className="text-xl text-slate-500 font-medium italic leading-relaxed">
+             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#202C54] uppercase tracking-tighter leading-[1.05] newspaper-font whitespace-normal overflow-visible hyphens-none">
+               Marco Técnico<br/>Metodológico
+             </h2>
+             <p className="text-lg lg:text-xl text-slate-500 font-medium italic leading-relaxed">
                "Diseñado para medir la madurez ESG bajo los estándares de la Agenda Canaria 2030."
              </p>
              <button 
@@ -188,25 +190,25 @@ const App: React.FC = () => {
              </button>
           </div>
           
-          <div className="md:w-2/3 space-y-20 text-left">
+          <div className="w-full md:w-[55%] lg:w-[60%] space-y-16 lg:space-y-20 text-left pt-12 md:pt-0">
             <section className="space-y-8">
                <div className="flex items-center gap-4 text-[#42A4DC]">
                   <ShieldCheck className="w-10 h-10" />
                   <h4 className="text-xs font-black uppercase tracking-[0.5em]">Fundamentos del Sistema</h4>
                </div>
-               <p className="text-2xl text-slate-700 leading-relaxed font-serif">
-                 El Gabinete ODS de CEOE Tenerife ha desarrollado este algoritmo basándose en la **Matriz de Interdependencias de Canarias**, que vinculas 18 indicadores clave con los 17 ODS.
+               <p className="text-xl lg:text-2xl text-slate-700 leading-relaxed font-serif">
+                 El Gabinete ODS de CEOE Tenerife ha desarrollado este algoritmo basándose en la <strong className="font-black text-[#202C54]">Matriz de Interdependencias de Canarias</strong>, que vincula 18 indicadores clave con los 17 ODS.
                </p>
             </section>
 
-            <div className="grid sm:grid-cols-2 gap-8">
+            <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
               {[
                 { title: "Gobernanza", icon: <ShieldCheck />, desc: "Compromiso de la dirección y ética en la toma de decisiones." },
                 { title: "Personas", icon: <Users />, desc: "Igualdad, conciliación y fomento del empleo de calidad local." },
                 { title: "Planeta", icon: <Globe2 />, desc: "Eficiencia energética, hídrica y circularidad insular." },
                 { title: "Comunidad", icon: <Award />, desc: "Impacto social directo en el bienestar de Tenerife." },
               ].map((item, i) => (
-                <div key={i} className="p-10 border-2 border-slate-50 bg-slate-50/50 group hover:border-[#42A4DC] transition-all">
+                <div key={i} className="p-8 lg:p-10 border-2 border-slate-50 bg-slate-50/50 group hover:border-[#42A4DC] transition-all">
                   <div className="text-[#202C54] group-hover:text-[#42A4DC] mb-6 transition-colors">
                     {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-12 h-12" })}
                   </div>
