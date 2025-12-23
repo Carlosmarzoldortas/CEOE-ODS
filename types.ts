@@ -1,11 +1,18 @@
 
 export enum BlockType {
-  GOVERNANCE = 'Gobernanza y Estrategia',
+  GOVERNANCE = 'Estrategia y Gobernanza',
   PEOPLE = 'Personas y Talento',
-  VALUE_CHAIN = 'Cadena de Valor y Proveedores',
-  ENVIRONMENT = 'Medio Ambiente y Clima',
-  COMMUNITY = 'Comunidad e Impacto Social',
-  MEASUREMENT = 'Medición y Transparencia'
+  VALUE_CHAIN = 'Operaciones y Suministro',
+  ENVIRONMENT = 'Planeta y Clima',
+  COMMUNITY = 'Impacto Social Canario',
+  MEASUREMENT = 'Reporte y Transparencia'
+}
+
+export enum CompanySize {
+  SELF_EMPLOYED = 'Autónomo / Profesional',
+  MICRO = 'Microempresa (1-9)',
+  SMALL = 'Pequeña (10-49)',
+  MEDIUM = 'Mediana (50-249)'
 }
 
 export interface Question {
@@ -13,12 +20,13 @@ export interface Question {
   block: BlockType;
   text: string;
   options: { label: string; value: number }[];
-  odsImpact: number[]; // Array of SDG numbers affected
+  odsImpact: number[];
 }
 
 export interface AssessmentResult {
   companyName: string;
   sector: string;
+  size: CompanySize;
   scores: Record<BlockType, number>;
   totalScore: number;
   odsAlignment: Record<number, number>;
@@ -28,5 +36,6 @@ export interface AssessmentResult {
 export interface UserInfo {
   companyName: string;
   sector: string;
+  size: CompanySize;
   email: string;
 }

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-// Logotipo de CEOE Tenerife (Versión Vectorial optimizada)
+// Logotipo de CEOE Tenerife (Versión Vectorial optimizada para Header)
 export const CEOELogo = ({ className = "h-12", style = {} }: { className?: string, style?: React.CSSProperties }) => (
   <div className={`flex flex-col items-start leading-none ${className} select-none shrink-0`} style={style}>
     <span style={{ color: '#202C54', fontWeight: 900, fontSize: '2.5rem', letterSpacing: '-0.05em', fontFamily: 'Arial, sans-serif' }}>CEOE</span>
@@ -12,49 +12,51 @@ export const CEOELogo = ({ className = "h-12", style = {} }: { className?: strin
   </div>
 );
 
-// Logotipo de Corporación 5 (C5)
+// Logotipo de Corporación 5 (C5) - Actualizado a URL solicitada
 export const Corp5Logo = ({ className = "h-12", style = {} }: { className?: string, style?: React.CSSProperties }) => (
   <img 
-    src="https://corporacion5-my.sharepoint.com/:i:/r/personal/cmardor_corporacion5_com/Documents/C5/c5_positivo.jpg?csf=1&web=1&e=bJMvte" 
+    src="https://corporacion5-my.sharepoint.com/:i:/r/personal/cmardor_corporacion5_com/Documents/C5/c5_positivo_transparente.png?csf=1&web=1&e=draYj9" 
     alt="Corporación 5" 
     className={`${className} object-contain shrink-0`}
-    style={{ height: 'auto', maxWidth: '280px', ...style }}
+    style={{ height: 'auto', ...style }}
     onError={(e) => {
-      e.currentTarget.src = "https://www.corporacion5.com/wp-content/uploads/2021/05/logo-corporacion-5.png";
+      // Fallback a versión anterior si el enlace de SharePoint falla por permisos
+      (e.target as HTMLImageElement).src = "https://corporacion5.com/wp-content/uploads/2021/05/logo-corporacion-5.png";
     }}
   />
 );
 
 interface LayoutProps {
   children: React.ReactNode;
+  onGoHome?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, onGoHome }) => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header Estilo Prensa - CEOE a la izquierda, Título centrado, C5 eliminado */}
+      {/* Header Estilo Prensa */}
       <header className="pt-6 pb-4 px-8 border-b-[6px] border-[#202C54]">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="newspaper-rule flex justify-between items-center text-[13px] font-black uppercase tracking-[0.4em] text-slate-500">
-            <span>Santa Cruz de Tenerife</span>
-            <span className="hidden md:block">Evaluación Estratégica Agenda Canaria 2030</span>
-            <span>{new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+            <button 
+              onClick={onGoHome}
+              className="hover:text-[#42A4DC] transition-colors flex items-center gap-2 border-r border-slate-200 pr-4"
+            >
+              INICIO
+            </button>
+            <span className="flex-1 px-4 hidden md:block text-center uppercase tracking-widest">Evaluación Estratégica Agenda Canaria 2030</span>
+            <span className="pl-4 border-l border-slate-200 uppercase">{new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-between py-6">
-             {/* CEOE a la izquierda */}
-             <div className="hover:opacity-80 transition-opacity flex items-center h-20">
+             <div onClick={onGoHome} className="cursor-pointer hover:opacity-80 transition-opacity flex items-center h-20">
                <CEOELogo className="h-20" />
              </div>
-             
-             {/* Título centrado con fuente aumentada según petición */}
              <div className="text-center flex-1 px-8">
                 <h4 className="text-[18px] font-black text-[#202C54] uppercase tracking-[0.25em] leading-tight">
                   Herramienta Digital de Autodiagnóstico<br/>
                   <span className="text-[#42A4DC] font-bold">Gabinete ODS Empresarial</span>
                 </h4>
              </div>
-             
-             {/* Espaciador para equilibrar la izquierda */}
              <div className="hidden md:block w-40"></div>
           </div>
         </div>
@@ -64,40 +66,55 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {children}
       </main>
 
-      {/* Footer Institucional Limpio */}
+      {/* Footer Institucional Actualizado */}
       <footer className="bg-[#202C54] text-white py-12 px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 items-start mb-12">
             <div className="space-y-6">
-              {/* Logo CEOE vinculado a su web oficial */}
               <div className="p-0 overflow-hidden flex items-center bg-transparent">
-                <a href="https://ceoe-tenerife.com/" target="_blank" rel="noopener noreferrer" className="hover:brightness-150 transition-all">
+                <a href="https://ceoe-tenerife.com/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-all block">
                   <img 
-                    src="https://corporacion5-my.sharepoint.com/:i:/r/personal/cmardor_corporacion5_com/Documents/C5/Captura%20de%20pantalla%202025-12-23%20084300.png?csf=1&web=1&e=Qd8C6u" 
-                    alt="CEOE Tenerife Logo" 
-                    className="h-24 w-auto object-contain brightness-125 mix-blend-screen"
-                    style={{ backgroundColor: 'transparent' }}
+                    src="https://corporacion5-my.sharepoint.com/:i:/r/personal/cmardor_corporacion5_com/Documents/C5/ceoe_tenerife_transparente.png?csf=1&web=1&e=qBSGTg" 
+                    alt="CEOE Tenerife" 
+                    className="h-20 object-contain brightness-200"
+                    onError={(e) => {
+                      // Si falla el enlace de SharePoint por permisos, ocultamos la imagen rota
+                      // pero no ponemos el texto alternativo solicitado por el usuario
+                      (e.target as HTMLImageElement).style.opacity = '0.1';
+                    }}
                   />
+                  {/* Eliminado el span 'CEOE TENERIFE' que aparecía aquí */}
                 </a>
               </div>
-              <p className="text-slate-400 text-xs leading-relaxed font-medium max-w-xs">
+              <p className="text-slate-400 text-xs leading-relaxed font-medium max-w-xs uppercase tracking-tighter">
                 La Confederación Provincial de Empresarios de Santa Cruz de Tenerife lidera la transición hacia un modelo económico sostenible en las Islas Canarias.
               </p>
             </div>
             <div>
-              <h5 className="font-bold text-xs uppercase tracking-[0.3em] text-[#42A4DC] mb-6">Iniciativa</h5>
+              <h5 className="font-bold text-xs uppercase tracking-[0.3em] text-[#42A4DC] mb-6">Iniciativa Estratégica</h5>
               <ul className="text-xs space-y-3 font-bold text-slate-300 uppercase tracking-widest">
                 <li>Gabinete de ODS</li>
                 <li>Agenda Canaria 2030</li>
-                <li>Pacto Mundial</li>
+                <li>Sostenibilidad Tenerife</li>
               </ul>
             </div>
             <div className="flex flex-col items-center md:items-end gap-6">
-               <div className="text-right">
-                 <p className="text-[12px] text-slate-400 font-black uppercase tracking-[0.2em]">
-                   Excelencia Técnica por Corporación 5
+               <div className="text-right flex flex-col items-end">
+                 <p className="text-[12px] text-slate-400 font-black uppercase tracking-[0.2em] mb-4">
+                   Excelencia Técnica por
                  </p>
-                 <p className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.1em] mt-2">
+                 <a href="https://corporacion5.es/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-all block">
+                    <img 
+                      src="https://corporacion5-my.sharepoint.com/:i:/r/personal/cmardor_corporacion5_com/Documents/C5/c5_positivo_transparente.png?csf=1&web=1&e=draYj9" 
+                      alt="Corporación 5" 
+                      className="brightness-200 grayscale contrast-200"
+                      style={{ height: '80px', width: 'auto', maxWidth: '300px' }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://corporacion5.com/wp-content/uploads/2021/05/logo-corporacion-5.png";
+                      }}
+                    />
+                 </a>
+                 <p className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.1em] mt-4">
                    Gabinete de Sostenibilidad
                  </p>
                </div>

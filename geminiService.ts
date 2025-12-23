@@ -1,52 +1,70 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { AssessmentResult } from "./types";
 
-// Always initialize GoogleGenAI with a named parameter for the API key.
-// The key is provided by the environment.
-
+/**
+ * Generates a strategic SDG report using Gemini 3 Pro.
+ * Adheres to Google GenAI SDK guidelines for Gemini 3 models and thinking budget.
+ */
 export const generateSdgReport = async (result: AssessmentResult): Promise<string> => {
-  // Create a new GoogleGenAI instance inside the function to use the current API key.
+  // Always initialize GoogleGenAI with a named parameter
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const scoresText = Object.entries(result.scores)
-    .map(([block, score]) => `${block}: ${score}/100`)
+    .map(([block, score]) => `${block}: ${Math.round(score)}/100`)
     .join('\n');
 
   const prompt = `
-    Actúa como un consultor senior experto en sostenibilidad y ODS para CEOE Tenerife.
-    Debes elaborar un breve informe ejecutivo de recomendaciones para una pyme canaria basada en sus resultados de autodiagnóstico.
+    Actúa como el Director del Gabinete de Sostenibilidad de CEOE Tenerife. 
+    Tu objetivo es redactar una "Hoja de Ruta Estratégica" personalizada para una empresa canaria.
 
-    DATOS DE LA EMPRESA:
-    Nombre: ${result.companyName}
-    Sector: ${result.sector}
+    IMPORTANTE: No menciones en ningún momento que eres una inteligencia artificial, ni que este informe ha sido generado por IA. El tono debe ser puramente institucional and técnico, como si fuera un documento redactado por consultores expertos de CEOE.
+
+    PERFIL EMPRESARIAL:
+    - Empresa: ${result.companyName}
+    - Sector: ${result.sector}
+    - Tamaño: ${result.size}
     
-    PUNTUACIONES POR BLOQUE:
+    DESEMPEÑO DIAGNOSTICADO:
     ${scoresText}
+    Índice de Madurez Global: ${Math.round(result.totalScore)}%
 
-    PUNTUACIÓN TOTAL DE MADUREZ: ${result.totalScore}/100
+    CONTEXTO OBLIGATORIO:
+    1. Menciona la relevancia de la "Agenda Canaria 2030" y la Ley Canaria de Cambio Climático.
+    2. Adapta las recomendaciones al tamaño (${result.size}). Si es pequeña, prioriza acciones de bajo coste y alto impacto.
+    3. Enfócate en la insularidad (transporte, agua, economía circular local).
 
-    ESTRUCTURA DEL INFORME:
-    1. Resumen de la situación actual (Señalar fortalezas y debilidades según las notas).
-    2. Tres recomendaciones estratégicas clave para mejorar el alineamiento con los ODS.
-    3. Una recomendación específica adaptada al tejido empresarial canario.
-    
-    Mantén un tono profesional, alentador y práctico. Usa Markdown para el formato.
+    ESTRUCTURA DEL INFORME (Formato Markdown):
+    # Análisis de Madurez Agenda 2030
+    [Breve párrafo sobre su posición actual comparada con su sector]
+
+    ## Fortalezas Destacadas
+    [2 puntos clave detectados]
+
+    ## Áreas de Acción Prioritaria
+    [3 recomendaciones específicas por orden de urgencia]
+
+    ## Recomendación de "Impacto Canario"
+    [Una acción específica para mejorar el ecosistema insular]
+
+    Mantén un lenguaje ejecutivo, inspirador y riguroso.
   `;
 
   try {
-    // Sustainability analysis is a complex reasoning task, so we use gemini-3-pro-preview.
+    // Correct usage of generateContent for text generation with thinking budget
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: prompt,
       config: {
-        temperature: 0.7,
+        temperature: 0.8,
+        // Recommendation: Set both maxOutputTokens and thinkingConfig.thinkingBudget at the same time
+        maxOutputTokens: 4000,
+        thinkingConfig: { thinkingBudget: 2000 }
       }
     });
-    // Access response.text as a property.
-    return response.text || "No se pudo generar el informe en este momento.";
+    // Accessing .text directly as a property, as per guidelines
+    return response.text || "No se pudo generar el análisis en este momento.";
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
-    return "Error al generar las recomendaciones. Por favor, inténtelo más tarde.";
+    console.error("Technical Error:", error);
+    return "Error en la conexión con el Gabinete Técnico. Por favor, contacte con CEOE Tenerife.";
   }
 };
