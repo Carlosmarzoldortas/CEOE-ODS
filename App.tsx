@@ -101,7 +101,7 @@ const App: React.FC = () => {
               Liderazgo <br/><span className="text-[#42A4DC]">Empresarial</span><br/>Sostenible
             </h1>
             <p className="text-2xl text-slate-500 font-medium max-w-3xl leading-relaxed italic mx-auto mt-8">
-              "Herramienta avanzada de autodiagnóstico para alinear la competitividad de las empresas tinerfeñas con la Agenda Canaria 2030."
+              "Herramienta avanzada de autodiagnóstico para alinear la competitividad de las empresas canarias con la Agenda Canaria 2030."
             </p>
           </div>
 
@@ -195,7 +195,7 @@ const App: React.FC = () => {
                   <h4 className="text-xs font-black uppercase tracking-[0.5em]">Fundamentos del Sistema</h4>
                </div>
                <p className="text-2xl text-slate-700 leading-relaxed font-serif">
-                 El Gabinete ODS de CEOE Tenerife ha desarrollado este algoritmo basándose en la **Matriz de Interdependencias de Canarias**, que vincula 18 indicadores clave con los 17 ODS.
+                 El Gabinete ODS de CEOE Tenerife ha desarrollado este algoritmo basándose en la **Matriz de Interdependencias de Canarias**, que vinculas 18 indicadores clave con los 17 ODS.
                </p>
             </section>
 
