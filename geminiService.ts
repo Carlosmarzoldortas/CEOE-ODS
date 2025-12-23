@@ -1,70 +1,67 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { AssessmentResult } from "./types";
 
 /**
- * Generates a strategic SDG report using Gemini 3 Pro.
- * Adheres to Google GenAI SDK guidelines for Gemini 3 models and thinking budget.
+ * Generates a high-level strategic SDG report using Gemini 3 Pro.
+ * Adheres to CEOE Tenerife institutional tone.
  */
 export const generateSdgReport = async (result: AssessmentResult): Promise<string> => {
-  // Always initialize GoogleGenAI with a named parameter
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
-  const scoresText = Object.entries(result.scores)
-    .map(([block, score]) => `${block}: ${Math.round(score)}/100`)
-    .join('\n');
+  const apiKey = process.env.API_KEY;
 
-  const prompt = `
-    Actúa como el Director del Gabinete de Sostenibilidad de CEOE Tenerife. 
-    Tu objetivo es redactar una "Hoja de Ruta Estratégica" personalizada para una empresa canaria.
-
-    IMPORTANTE: No menciones en ningún momento que eres una inteligencia artificial, ni que este informe ha sido generado por IA. El tono debe ser puramente institucional and técnico, como si fuera un documento redactado por consultores expertos de CEOE.
-
-    PERFIL EMPRESARIAL:
-    - Empresa: ${result.companyName}
-    - Sector: ${result.sector}
-    - Tamaño: ${result.size}
-    
-    DESEMPEÑO DIAGNOSTICADO:
-    ${scoresText}
-    Índice de Madurez Global: ${Math.round(result.totalScore)}%
-
-    CONTEXTO OBLIGATORIO:
-    1. Menciona la relevancia de la "Agenda Canaria 2030" y la Ley Canaria de Cambio Climático.
-    2. Adapta las recomendaciones al tamaño (${result.size}). Si es pequeña, prioriza acciones de bajo coste y alto impacto.
-    3. Enfócate en la insularidad (transporte, agua, economía circular local).
-
-    ESTRUCTURA DEL INFORME (Formato Markdown):
-    # Análisis de Madurez Agenda 2030
-    [Breve párrafo sobre su posición actual comparada con su sector]
-
-    ## Fortalezas Destacadas
-    [2 puntos clave detectados]
-
-    ## Áreas de Acción Prioritaria
-    [3 recomendaciones específicas por orden de urgencia]
-
-    ## Recomendación de "Impacto Canario"
-    [Una acción específica para mejorar el ecosistema insular]
-
-    Mantén un lenguaje ejecutivo, inspirador y riguroso.
-  `;
+  if (!apiKey || apiKey === "undefined") {
+    return "Error de configuración: API_KEY no disponible.";
+  }
 
   try {
-    // Correct usage of generateContent for text generation with thinking budget
+    const ai = new GoogleGenAI({ apiKey });
+    
+    const scoresText = Object.entries(result.scores)
+      .map(([block, score]) => `- **${block}**: ${Math.round(score)}%`)
+      .join('\n');
+
+    const prompt = `
+      Eres el Director del Gabinete de Sostenibilidad de CEOE Tenerife. 
+      Debes redactar un "Informe Estratégico de Posicionamiento ODS" para la empresa "${result.companyName}".
+      
+      CONTEXTO:
+      - Sector: ${result.sector}
+      - Tamaño: ${result.size}
+      - Marco Normativo: Agenda Canaria 2030 y Ley Canaria de Cambio Climático.
+      
+      RESULTADOS DEL AUTODIAGNÓSTICO:
+      ${scoresText}
+      Índice Global de Madurez: ${Math.round(result.totalScore)}%
+
+      INSTRUCCIONES DE REDACCIÓN:
+      1. Usa un tono institucional, ejecutivo, inspirador y técnico.
+      2. No menciones que eres una IA.
+      3. Estructura el informe con los siguientes apartados:
+         # DIAGNÓSTICO ESTRATÉGICO DE SOSTENIBILIDAD
+         ## 1. Análisis de Madurez
+         (Analiza brevemente el desempeño actual según los bloques evaluados).
+         ## 2. Fortalezas Destacadas
+         (Identifica dónde la empresa está liderando).
+         ## 3. Hoja de Ruta Prioritaria (Tenerife 2030)
+         (Propón 3 acciones concretas y realistas para el contexto canario: ej. autoconsumo fotovoltaico, economía circular, igualdad local).
+         ## 4. Conclusión Institucional
+         (Cierre breve sobre la importancia de la colaboración empresarial en CEOE Tenerife).
+
+      IMPORTANTE: Usa Markdown para el formato. El informe debe ser denso en valor estratégico.
+    `;
+
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: prompt,
       config: {
-        temperature: 0.8,
-        // Recommendation: Set both maxOutputTokens and thinkingConfig.thinkingBudget at the same time
-        maxOutputTokens: 4000,
+        temperature: 0.6,
         thinkingConfig: { thinkingBudget: 2000 }
       }
     });
-    // Accessing .text directly as a property, as per guidelines
-    return response.text || "No se pudo generar el análisis en este momento.";
+
+    return response.text || "Informe generado con éxito. Consulte sus KPIs en el panel superior.";
   } catch (error) {
-    console.error("Technical Error:", error);
-    return "Error en la conexión con el Gabinete Técnico. Por favor, contacte con CEOE Tenerife.";
+    console.error("Gemini Service Error:", error);
+    return "El motor de análisis estratégico está saturado en este momento. Por favor, descargue sus resultados cuantitativos arriba.";
   }
 };

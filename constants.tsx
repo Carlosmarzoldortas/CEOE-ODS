@@ -4,7 +4,7 @@ import { BlockType, Question } from './types';
 export const COLORS = {
   primary: '#202C54',
   secondary: '#42A4DC',
-  accent: '#F39200', // ODS Orange for calls to action
+  accent: '#F39200', 
   bg: '#f8fafc',
 };
 
@@ -149,81 +149,148 @@ export const ODS_LIST = [
 
 const STANDARD_OPTIONS = [
   { label: 'No aplicado / Desconocido', value: 0 },
-  { label: 'En fase inicial / Idea', value: 1 },
-  { label: 'Desarrollado parcialmente', value: 2 },
-  { label: 'Implementado con métricas', value: 3 },
-  { label: 'Líder / Referencia externa', value: 4 },
+  { label: 'Incipiente / Planificando', value: 1 },
+  { label: 'Parcialmente implementado', value: 2 },
+  { label: 'Maduro con indicadores', value: 3 },
+  { label: 'Referente sectorial', value: 4 },
 ];
 
 export const QUESTIONS: Question[] = [
+  // ESTRATEGIA Y GOBERNANZA
   {
     id: 'G1',
     block: BlockType.GOVERNANCE,
-    text: '¿La dirección ha formalizado un compromiso público con la Agenda Canaria 2030?',
+    text: '¿La alta dirección ha formalizado un compromiso público con la Agenda Canaria 2030 y los ODS?',
     options: STANDARD_OPTIONS,
     odsImpact: [16, 17]
   },
   {
     id: 'G2',
     block: BlockType.GOVERNANCE,
-    text: '¿Se han integrado criterios ESG (Ambientales, Sociales y de Gobernanza) en la toma de decisiones?',
+    text: '¿Existe una persona o comité responsable de supervisar la sostenibilidad y los criterios ESG?',
     options: STANDARD_OPTIONS,
-    odsImpact: [8, 12]
+    odsImpact: [16, 12]
   },
+  {
+    id: 'G3',
+    block: BlockType.GOVERNANCE,
+    text: '¿Se han integrado los riesgos climáticos en el plan de continuidad de negocio de la empresa?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [13, 9]
+  },
+
+  // PERSONAS Y TALENTO
   {
     id: 'P1',
     block: BlockType.PEOPLE,
-    text: '¿Cuenta con un plan de igualdad y medidas activas de conciliación adaptadas a la realidad insular?',
+    text: '¿Dispone de medidas de conciliación y flexibilidad horaria adaptadas al mercado laboral canario?',
     options: STANDARD_OPTIONS,
-    odsImpact: [5, 10]
+    odsImpact: [5, 8]
   },
   {
     id: 'P2',
     block: BlockType.PEOPLE,
-    text: '¿Existen canales de participación para que los empleados propongan mejoras en sostenibilidad?',
+    text: '¿Aplica políticas de igualdad retributiva y fomento del liderazgo femenino en puestos directivos?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [5, 10]
+  },
+  {
+    id: 'P3',
+    block: BlockType.PEOPLE,
+    text: '¿Invierte en la formación de su plantilla en competencias digitales y de sostenibilidad (Green Skills)?',
     options: STANDARD_OPTIONS,
     odsImpact: [4, 8]
   },
+
+  // OPERACIONES Y SUMINISTRO
   {
     id: 'V1',
     block: BlockType.VALUE_CHAIN,
-    text: '¿Prioriza a proveedores de Tenerife o Canarias para reducir la huella de transporte y apoyar el empleo local?',
+    text: '¿Prioriza activamente la contratación de proveedores locales de Tenerife o Canarias (Producto Km0)?',
     options: STANDARD_OPTIONS,
-    odsImpact: [8, 11, 13]
+    odsImpact: [8, 11, 12]
   },
   {
     id: 'V2',
     block: BlockType.VALUE_CHAIN,
-    text: '¿Exige a sus proveedores principales certificaciones o compromisos básicos de sostenibilidad?',
+    text: '¿Evalúa a sus proveedores bajo criterios sociales y medioambientales antes de su contratación?',
     options: STANDARD_OPTIONS,
     odsImpact: [12, 17]
   },
   {
+    id: 'V3',
+    block: BlockType.VALUE_CHAIN,
+    text: '¿Optimiza sus rutas de transporte para minimizar las emisiones en el territorio insular?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [11, 13]
+  },
+
+  // PLANETA Y CLIMA
+  {
     id: 'E1',
     block: BlockType.ENVIRONMENT,
-    text: '¿Ha implantado medidas de eficiencia energética o cuenta con instalaciones de energías renovables?',
+    text: '¿Monitoriza y cuenta con un plan de reducción de su Huella de Carbono anual?',
     options: STANDARD_OPTIONS,
     odsImpact: [7, 13]
   },
   {
     id: 'E2',
     block: BlockType.ENVIRONMENT,
-    text: '¿Dispone de un sistema para minimizar el consumo de agua y gestionar correctamente los residuos?',
+    text: '¿Ha implementado medidas de eficiencia hídrica (ahorro de agua), recurso crítico en Canarias?',
     options: STANDARD_OPTIONS,
-    odsImpact: [6, 12, 14, 15]
+    odsImpact: [6, 15]
   },
+  {
+    id: 'E3',
+    block: BlockType.ENVIRONMENT,
+    text: '¿Aplica criterios de economía circular para maximizar el reciclaje y reducir el desperdicio?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [12, 14]
+  },
+
+  // IMPACTO SOCIAL CANARIO
   {
     id: 'C1',
     block: BlockType.COMMUNITY,
-    text: '¿Realiza acciones de patrocinio o colaboración con entidades sociales y culturales de las islas?',
+    text: '¿Colabora económicamente o mediante voluntariado con entidades sociales del archipiélago?',
     options: STANDARD_OPTIONS,
-    odsImpact: [1, 11]
+    odsImpact: [1, 10, 17]
   },
+  {
+    id: 'C2',
+    block: BlockType.COMMUNITY,
+    text: '¿Contribuye a la preservación del patrimonio cultural o natural de las Islas Canarias?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [11, 15]
+  },
+  {
+    id: 'C3',
+    block: BlockType.COMMUNITY,
+    text: '¿Participa en programas de fomento del empleo para colectivos vulnerables en Tenerife?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [1, 8]
+  },
+
+  // REPORTE Y TRANSPARENCIA
   {
     id: 'M1',
     block: BlockType.MEASUREMENT,
-    text: '¿Publica un informe o memoria anual que recoja sus avances en materia de ODS?',
+    text: '¿Publica anualmente una Memoria de Sostenibilidad o Estado de Información No Financiera?',
     options: STANDARD_OPTIONS,
     odsImpact: [12, 16]
+  },
+  {
+    id: 'M2',
+    block: BlockType.MEASUREMENT,
+    text: '¿Comunica de forma transparente sus avances en ODS a través de su web o redes sociales?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [17, 12]
+  },
+  {
+    id: 'M3',
+    block: BlockType.MEASUREMENT,
+    text: '¿Utiliza indicadores (KPIs) específicos para medir el impacto social y ambiental de su actividad?',
+    options: STANDARD_OPTIONS,
+    odsImpact: [9, 16]
   }
 ];
